@@ -63,7 +63,7 @@ function App() {
   const [comboHistory, setComboHistory] = useState([]);
 
   const getCombo = () => {
-    setComboHistory([...comboHistory, combos[getRandomInt(0, 255)]]);
+    setComboHistory([...comboHistory, combos[getRandomInt(0, 256)]]);
   };
 
   return (
