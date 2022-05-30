@@ -35,7 +35,9 @@ function App() {
 
   return (
     <div className="App">
-      <button onClick={getCombo}>Random Combo</button>
+      <button onClick={getCombo} style={{ marginTop: "1rem" }}>
+        Random Combo
+      </button>
 
       {comboHistory
         ?.map((combo, index) => {
