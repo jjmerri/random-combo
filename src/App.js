@@ -36,7 +36,7 @@ function App() {
   return (
     <div className="App">
       <button onClick={getCombo} style={{ marginTop: "1rem" }}>
-        Random Combo
+        Generate Random Combo
       </button>
 
       {comboHistory
