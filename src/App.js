@@ -3,59 +3,27 @@ import "./App.css";
 import { useState } from "react";
 
 const getCombos = () => {
+  const colors = ["black", "red"];
+  const numOptions = 8;
   const combos = [];
-  for (let i = 0; i < 8; i++) {
-    for (let j = 0; j < 8; j++) {
-      combos.push({
-        color1: "black",
-        number1: i + 1,
-        color2: "black",
-        number2: j + 1,
-        id: combos.length + 1,
-      });
-    }
-  }
-  for (let i = 0; i < 8; i++) {
-    for (let j = 0; j < 8; j++) {
-      combos.push({
-        color1: "black",
-        number1: i + 1,
-        color2: "red",
-        number2: j + 1,
-        id: combos.length + 1,
-      });
-    }
-  }
-  for (let i = 0; i < 8; i++) {
-    for (let j = 0; j < 8; j++) {
-      combos.push({
-        color1: "red",
-        number1: i + 1,
-        color2: "black",
-        number2: j + 1,
-        id: combos.length + 1,
-      });
-    }
-  }
-  for (let i = 0; i < 8; i++) {
-    for (let j = 0; j < 8; j++) {
-      combos.push({
-        color1: "red",
-        number1: i + 1,
-        color2: "red",
-        number2: j + 1,
-        id: combos.length + 1,
-      });
+
+  for (let x = 0; x < colors.length; x++) {
+    for (let y = 0; y < colors.length; y++) {
+      for (let i = 0; i < numOptions; i++) {
+        for (let j = 0; j < numOptions; j++) {
+          combos.push({
+            color1: colors[x],
+            number1: i + 1,
+            color2: colors[y],
+            number2: j + 1,
+            id: combos.length + 1,
+          });
+        }
+      }
     }
   }
   return combos;
 };
-
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
-}
 
 const combos = getCombos();
 
@@ -63,7 +31,7 @@ function App() {
   const [comboHistory, setComboHistory] = useState([]);
 
   const getCombo = () => {
-    setComboHistory([...comboHistory, combos[getRandomInt(1, 256)]]);
+    setComboHistory([...comboHistory, combos[Math.floor(Math.random() * 256)]]);
   };
 
   return (
