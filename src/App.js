@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import "./App.css";
 import { useState } from "react";
 
@@ -39,9 +38,15 @@ function App() {
       <button onClick={getCombo}>Random Combo</button>
 
       {comboHistory
-        ?.map((combo) => {
+        ?.map((combo, index) => {
           return (
-            <p>{`${combo.id} - ${combo.color1}:${combo.number1} - ${combo.color2}:${combo.number2}`}</p>
+            <p
+              key={index}
+              style={{
+                fontWeight:
+                  index === comboHistory.length - 1 ? "bold" : "normal",
+              }}
+            >{`${combo.id} - (${combo.color1}:${combo.number1}, ${combo.color2}:${combo.number2})`}</p>
           );
         })
         .reverse()}
