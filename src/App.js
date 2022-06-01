@@ -24,34 +24,53 @@ const getCombos = () => {
   return combos;
 };
 
+function shuffle(array) {
+  let currentIndex = array.length,
+    randomIndex;
+
+  // While there remain elements to shuffle.
+  while (currentIndex !== 0) {
+    // Pick a remaining element.
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex],
+      array[currentIndex],
+    ];
+  }
+
+  return array;
+}
+
 const combos = getCombos();
 
 function App() {
-  const [comboHistory, setComboHistory] = useState([]);
+  const [shuffledCombos, setShuffledCombos] = useState(combos);
 
-  const getCombo = () => {
-    setComboHistory([...comboHistory, combos[Math.floor(Math.random() * 256)]]);
+  const shuffleCombos = () => {
+    setShuffledCombos([...shuffle(combos)]);
   };
 
   return (
     <div className="App">
-      <button onClick={getCombo} style={{ marginTop: "1rem" }}>
-        Generate Random Combo
+      <button onClick={shuffleCombos} style={{ marginTop: "1rem" }}>
+        Shuffle Combos
       </button>
 
-      {comboHistory
-        ?.map((combo, index) => {
+      <table
+        style={{ paddingTop: "1rem", marginLeft: "auto", marginRight: "auto" }}
+      >
+        {shuffledCombos?.map((combo, index) => {
           return (
-            <p
-              key={index}
-              style={{
-                fontWeight:
-                  index === comboHistory.length - 1 ? "bold" : "normal",
-              }}
-            >{`${combo.id} - (${combo.color1}:${combo.number1}, ${combo.color2}:${combo.number2})`}</p>
+            <tr key={index}>
+              <td>{index + 1}:</td>
+              <td>{`(${combo.color1}:${combo.number1}, ${combo.color2}:${combo.number2})`}</td>
+            </tr>
           );
-        })
-        .reverse()}
+        })}
+      </table>
     </div>
   );
 }
