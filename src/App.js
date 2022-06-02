@@ -1,6 +1,29 @@
 import "./App.css";
 import { useState } from "react";
 
+const getCombos = () => {
+  const colors = ["black", "red"];
+  const numOptions = 8;
+  const combos = [];
+
+  for (let x = 0; x < colors.length; x++) {
+    for (let y = 0; y < colors.length; y++) {
+      for (let i = 0; i < numOptions; i++) {
+        for (let j = 0; j < numOptions; j++) {
+          combos.push({
+            color1: colors[x],
+            number1: i + 1,
+            color2: colors[y],
+            number2: j + 1,
+            id: combos.length + 1,
+          });
+        }
+      }
+    }
+  }
+  return combos;
+};
+
 function shuffle(array) {
   let currentIndex = array.length,
     randomIndex;
@@ -21,58 +44,13 @@ function shuffle(array) {
   return array;
 }
 
-const getCombos = () => {
-  const colors = ["black", "red"];
-  const numOptions = 8;
-  const combos = [];
-  let counter = 0;
-
-  for (let x = 0; x < colors.length; x++) {
-    for (let y = 0; y < colors.length; y++) {
-      for (let i = 0; i < numOptions; i++) {
-        for (let j = 0; j < numOptions; j++) {
-          combos.push({
-            color1: colors[x],
-            number1: i + 1,
-            color2: colors[y],
-            number2: j + 1,
-            id: ++counter,
-          });
-        }
-      }
-    }
-  }
-  return combos;
-};
-
 const combos = getCombos();
-
-const shuffleIds = () => {
-  const numbersArray = shuffle(Array.from({ length: 256 }, (_, i) => i + 1));
-
-  for (let i = 0; i < combos.length; i++) {
-    combos[i].id = numbersArray[i];
-  }
-};
-
-const pairElement = (combo) => {
-  return (
-    <tr key={combo.id}>
-      <td>{combo.id}:</td>
-      <td>
-        (<span style={{ color: combo.color1 }}>{combo.number1}</span>,
-        <span style={{ color: combo.color2 }}>{combo.number2}</span>)
-      </td>
-    </tr>
-  );
-};
 
 function App() {
   const [shuffledCombos, setShuffledCombos] = useState(combos);
 
   const shuffleCombos = () => {
-    shuffleIds();
-    setShuffledCombos([...combos]);
+    setShuffledCombos([...shuffle(combos)]);
   };
 
   return (
@@ -82,14 +60,18 @@ function App() {
       </button>
 
       <table
-        style={{
-          paddingTop: "1rem",
-          marginLeft: "auto",
-          marginRight: "auto",
-        }}
+        style={{ paddingTop: "1rem", marginLeft: "auto", marginRight: "auto" }}
       >
-        {shuffledCombos?.map((combo) => {
-          return pairElement(combo);
+        {shuffledCombos?.map((combo, index) => {
+          return (
+            <tr key={index}>
+              <td>{index + 1}:</td>
+              <td>
+                (<span style={{ color: combo.color1 }}>{combo.number1}</span>,
+                <span style={{ color: combo.color2 }}>{combo.number2}</span>)
+              </td>
+            </tr>
+          );
         })}
       </table>
     </div>
