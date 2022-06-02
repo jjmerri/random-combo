@@ -66,7 +66,10 @@ function App() {
           return (
             <tr key={index}>
               <td>{index + 1}:</td>
-              <td>{`(${combo.color1}:${combo.number1}, ${combo.color2}:${combo.number2})`}</td>
+              <td>
+                (<span style={{ color: combo.color1 }}>{combo.number1}</span>,
+                <span style={{ color: combo.color2 }}>{combo.number2}</span>)
+              </td>
             </tr>
           );
         })}
