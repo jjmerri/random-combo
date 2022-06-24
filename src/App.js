@@ -47,10 +47,13 @@ function shuffle(array) {
 const combos = getCombos();
 
 function App() {
-  const [shuffledCombos, setShuffledCombos] = useState(combos);
+  const [shuffledHistory, setShuffledHistory] = useState([combos]);
+  const [historyIndex, setHistoryIndex] = useState(0);
 
   const shuffleCombos = () => {
-    setShuffledCombos([...shuffle(combos)]);
+    setHistoryIndex(shuffledHistory.length);
+    const shuffled = [...shuffle(combos)];
+    setShuffledHistory([...shuffledHistory, shuffled]);
   };
 
   return (
@@ -62,7 +65,7 @@ function App() {
       <table
         style={{ paddingTop: "1rem", marginLeft: "auto", marginRight: "auto" }}
       >
-        {shuffledCombos?.map((combo, index) => {
+        {shuffledHistory[historyIndex]?.map((combo, index) => {
           return (
             <tr key={index}>
               <td>{index + 1}:</td>
