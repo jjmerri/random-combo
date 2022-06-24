@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 const getCombos = () => {
   const colors = ["black", "red"];
@@ -24,7 +24,8 @@ const getCombos = () => {
   return combos;
 };
 
-function shuffle(array) {
+function shuffle(original) {
+  const array = [...original];
   let currentIndex = array.length,
     randomIndex;
 
@@ -50,32 +51,48 @@ function App() {
   const [shuffledHistory, setShuffledHistory] = useState([combos]);
   const [historyIndex, setHistoryIndex] = useState(0);
 
-  const shuffleCombos = () => {
+  const shuffleCombos = useCallback(() => {
     setHistoryIndex(shuffledHistory.length);
     const shuffled = [...shuffle(combos)];
-    setShuffledHistory([...shuffledHistory, shuffled]);
-  };
+    setShuffledHistory((prev) => [...prev, shuffled]);
+  }, [shuffledHistory]);
 
   return (
     <div className="App">
       <button onClick={shuffleCombos} style={{ marginTop: "1rem" }}>
         Shuffle Combos
       </button>
+      <button
+        onClick={() => setHistoryIndex((prev) => prev - 1)}
+        disabled={historyIndex === 0}
+        style={{ marginTop: "1rem" }}
+      >
+        Previous Result
+      </button>
+      <button
+        onClick={() => setHistoryIndex((prev) => prev + 1)}
+        disabled={historyIndex === shuffledHistory.length - 1}
+        style={{ marginTop: "1rem" }}
+      >
+        Next Result
+      </button>
 
       <table
         style={{ paddingTop: "1rem", marginLeft: "auto", marginRight: "auto" }}
       >
-        {shuffledHistory[historyIndex]?.map((combo, index) => {
-          return (
-            <tr key={index}>
-              <td>{index + 1}:</td>
-              <td>
-                (<span style={{ color: combo.color1 }}>{combo.number1}</span>,
-                <span style={{ color: combo.color2 }}>{combo.number2}</span>)
-              </td>
-            </tr>
-          );
-        })}
+        <tbody>
+          {shuffledHistory[historyIndex]?.map((combo, index) => {
+            return (
+              <tr key={index}>
+                <td>{index + 1}:</td>
+                <td>
+                  (<span style={{ color: combo.color1 }}>{combo.number1}</span>,
+                  <span style={{ color: combo.color2 }}>{combo.number2}</span>)
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
       </table>
     </div>
   );
