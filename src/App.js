@@ -62,21 +62,25 @@ function App() {
       <button onClick={shuffleCombos} style={{ marginTop: "1rem" }}>
         Shuffle Combos
       </button>
-      <button
-        onClick={() => setHistoryIndex((prev) => prev - 1)}
-        disabled={historyIndex === 0}
-        style={{ marginTop: "1rem" }}
+      <div
+        style={{ display: "flex", justifyContent: "center", marginTop: "1rem" }}
       >
-        Previous Result
-      </button>
-      <button
-        onClick={() => setHistoryIndex((prev) => prev + 1)}
-        disabled={historyIndex === shuffledHistory.length - 1}
-        style={{ marginTop: "1rem" }}
-      >
-        Next Result
-      </button>
-
+        <button
+          onClick={() => setHistoryIndex((prev) => prev - 1)}
+          disabled={historyIndex === 0}
+        >
+          Prev Combo
+        </button>
+        <span style={{ marginLeft: "1rem", marginRight: "1rem" }}>
+          {historyIndex + 1}
+        </span>
+        <button
+          onClick={() => setHistoryIndex((prev) => prev + 1)}
+          disabled={historyIndex === shuffledHistory.length - 1}
+        >
+          Next Combo
+        </button>
+      </div>
       <table
         style={{ paddingTop: "1rem", marginLeft: "auto", marginRight: "auto" }}
       >
