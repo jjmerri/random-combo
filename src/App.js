@@ -94,6 +94,7 @@ function App() {
             style={{ marginRight: "1rem" }}
             onChange={(e) => calcFilterVal(e.target.value)}
             defaultValue="B4R5"
+            size="8"
           />
         </label>
         <label>
